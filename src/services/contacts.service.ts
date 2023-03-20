@@ -22,24 +22,8 @@ export const ContactService = {
             where: {
                 id,
             },
-        });
-        if (!foundContact) {
-            throw new AppError("Contact Not Found", 404);
-        }
-        return foundContact;
-    },
-    async findContactByEmail(email: string): Promise<Contact> {
-        const foundContact = await contactRepo.findOne({
-            select: [
-                "id",
-                "name",
-                "email",
-                "phone",
-                "registered_date",
-                "client",
-            ],
-            where: {
-                email,
+            relations: {
+                client: true,
             },
         });
         if (!foundContact) {
@@ -48,21 +32,32 @@ export const ContactService = {
         return foundContact;
     },
     async getAll(req: Request) {
-        return await contactRepo.find();
+        return await contactRepo.find({
+            relations: {
+                client: true,
+            },
+        });
     },
     async create(req: Request) {
-        const contactData: IContactCreateRequest = await req.body;
+        const contactData: IContactCreateRequest = req.body;
         const newContact = contactRepo.create(contactData);
         await contactRepo.save(newContact);
-        return await this.findContactByEmail(newContact.id);
+        return await this.findContactById(newContact.id);
     },
     async getById(req: Request): Promise<Contact | null> {
         const { id } = req.params;
-        return await contactRepo.findOneBy({ id });
+        return await contactRepo.findOne({
+            where: {
+                id,
+            },
+            relations: {
+                client: true,
+            },
+        });
     },
     async update(req: Request): Promise<Contact> {
         const { id } = req.params;
-        const contactData: IContactUpdateRequest = await req.body;
+        const contactData: IContactUpdateRequest = req.body;
         await contactRepo.update(id, contactData);
         return await this.findContactById(id);
     },

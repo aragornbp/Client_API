@@ -2,6 +2,10 @@ import { ClientService } from "../services/clients.service";
 import { Request, Response } from "express";
 
 export const ClientController = {
+    async login(req: Request, res: Response) {
+        const data = await ClientService.login(req);
+        return res.json(data);
+    },
     async getAll(req: Request, res: Response) {
         const data = await ClientService.getAll(req);
         return res.json(data);

@@ -14,3 +14,15 @@ export interface IClientUpdateRequest {
     phone?: number;
     is_active?: boolean;
 }
+
+export interface IRegisterRequest {
+    name: string;
+    email: string;
+    password: string;
+    phone: number;
+}
+
+export interface ILoginRequest {
+    email: string;
+    password: string;
+}

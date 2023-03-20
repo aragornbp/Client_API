@@ -4,5 +4,5 @@ import { Router } from "express";
 
 export const routes = Router();
 
-routes.use("/api", contactRoutes);
-routes.use("/api", clientRoutes);
+routes.use("/contacts", contactRoutes);
+routes.use("/clients", clientRoutes);
