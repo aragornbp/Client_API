@@ -26,15 +26,26 @@ clientRoutes.post(
     ClientController.create
 );
 
-clientRoutes.get("/", ClientController.getAll);
+// clientRoutes.get("/", ClientController.getAll);
 
 clientRoutes.patch(
     "/:id",
     validateSchema(updateClientSchema),
     verifyClientIsLogged,
+    verifyNotExistClient,
     ClientController.update
 );
 
-clientRoutes.get("/:id", verifyClientIsLogged, ClientController.getById);
+clientRoutes.get(
+    "/:id",
+    verifyClientIsLogged,
+    verifyNotExistClient,
+    ClientController.getById
+);
 
-clientRoutes.delete("/:id", verifyClientIsLogged, ClientController.delete);
+clientRoutes.delete(
+    "/:id",
+    verifyClientIsLogged,
+    verifyNotExistClient,
+    ClientController.delete
+);

@@ -4,7 +4,6 @@ export interface IContactCreateRequest {
     name: string;
     email: string;
     phone: number;
-    client: Client;
 }
 
 export interface IContactUpdateRequest {

@@ -7,6 +7,7 @@ import { AppError } from "../errors/app-error";
 import { Contact } from "../entities/Contact";
 import { UpdateResult } from "typeorm";
 import { Request } from "express";
+import "express-async-errors";
 
 export const ContactService = {
     async findContactById(id: string): Promise<Contact> {
@@ -33,6 +34,9 @@ export const ContactService = {
     },
     async getAll(req: Request) {
         return await contactRepo.find({
+            where: {
+                is_active: true,
+            },
             relations: {
                 client: true,
             },
@@ -40,7 +44,11 @@ export const ContactService = {
     },
     async create(req: Request) {
         const contactData: IContactCreateRequest = req.body;
-        const newContact = contactRepo.create(contactData);
+        const clientLogged = req.clientFound;
+        const newContact = contactRepo.create({
+            ...contactData,
+            client: clientLogged,
+        });
         await contactRepo.save(newContact);
         return await this.findContactById(newContact.id);
     },

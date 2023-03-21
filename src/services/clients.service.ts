@@ -10,6 +10,7 @@ import {
     IClientUpdateRequest,
 } from "../interfaces/clients";
 import jwt from "jsonwebtoken";
+import "express-async-errors";
 
 export const ClientService = {
     async login(req: Request) {
@@ -65,12 +66,15 @@ export const ClientService = {
                 "registered_date",
                 "contacts",
             ],
+            where: {
+                is_active: true,
+            },
             relations: {
                 contacts: true,
             },
         });
     },
-    async create(req: Request) {
+    async create(req: Request): Promise<Client> {
         const clientData: IClientCreateRequest = await req.body;
         const passCrypt = await hash(clientData.password, 8);
         const newPerson = clientRepo.create({
@@ -78,7 +82,12 @@ export const ClientService = {
             password: passCrypt,
         });
         await clientRepo.save(newPerson);
-        return await this.findUserById(newPerson.id);
+        // const result = await ClientService.findUserById(newPerson.id);
+
+        // console.log({
+        //     result,
+        // });
+        return newPerson;
     },
     async getById(req: Request): Promise<Client | null> {
         const { id } = req.params;

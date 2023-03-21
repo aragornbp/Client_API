@@ -2,8 +2,9 @@ import { createEntities1679341046419 } from "./migrations/1679341046419-createEn
 import { Contact } from "./entities/Contact";
 import { Client } from "./entities/Client";
 import { DataSource } from "typeorm";
-import path from "path";
+import "reflect-metadata";
 import "dotenv/config";
+import "express-async-errors";
 
 const entities = [Contact, Client];
 const migrations = [createEntities1679341046419];
