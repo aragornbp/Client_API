@@ -1,17 +1,13 @@
-import { contactRepo } from "./../../repositories/contact-repo";
+import { contactRepo } from "../../repositories/contact-repo";
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../../errors/app-error";
 
-export const verifyNotExistContact = async (
+export const verifyNotExistContactById = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
-    const existContact = await contactRepo.findOne({
-        where: {
-            email: req.body.email,
-        },
-    });
+    const existContact = await contactRepo.findOneBy({ id: req.body.id });
     if (!existContact) {
         throw new AppError("Contact Not Found");
     }

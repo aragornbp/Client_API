@@ -2,6 +2,7 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinColumn,
     ManyToOne,
     PrimaryGeneratedColumn,
 } from "typeorm";
@@ -24,9 +25,10 @@ export class Contact {
     @CreateDateColumn()
     registered_date: Date;
 
-    @ManyToOne(() => Client, (client) => client.id)
-    client: Client;
-
     @Column({ default: true })
     is_active: boolean;
+
+    @ManyToOne(() => Client, (client) => client.contacts)
+    @JoinColumn({ name: "client_id" })
+    client: Client;
 }

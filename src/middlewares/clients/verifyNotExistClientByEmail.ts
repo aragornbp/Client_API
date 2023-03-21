@@ -1,8 +1,8 @@
-import { clientRepo } from "./../../repositories/client-repo";
+import { clientRepo } from "../../repositories/client-repo";
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../../errors/app-error";
 
-export const verifyNotExistClient = async (
+export const verifyNotExistClientByEmail = async (
     req: Request,
     res: Response,
     next: NextFunction

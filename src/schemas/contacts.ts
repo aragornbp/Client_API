@@ -10,4 +10,5 @@ export const updateContactSchema = yup.object().shape({
     name: yup.string().notRequired(),
     email: yup.string().email().notRequired(),
     phone: yup.number().notRequired(),
+    is_active: yup.boolean().notRequired(),
 });

@@ -1,13 +1,7 @@
-import { createEntities1679341046419 } from "./migrations/1679341046419-createEntities";
-import { Contact } from "./entities/Contact";
-import { Client } from "./entities/Client";
 import { DataSource } from "typeorm";
 import "reflect-metadata";
 import "dotenv/config";
 import "express-async-errors";
-
-const entities = [Contact, Client];
-const migrations = [createEntities1679341046419];
 
 export const AppDataSource = new DataSource(
     process.env.NODE_ENV === "test"
@@ -26,7 +20,7 @@ export const AppDataSource = new DataSource(
               database: process.env.PGDATABASE,
               logging: true,
               synchronize: false,
-              entities: entities,
-              migrations: migrations,
+              entities: [`${__dirname}/**/entities/*.{ts,js}`],
+              migrations: [`${__dirname}/**/migrations/*.{ts,js}`],
           }
 );

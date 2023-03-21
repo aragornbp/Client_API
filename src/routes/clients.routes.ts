@@ -1,11 +1,8 @@
+import { loginClientSchema, registerClientSchema } from "./../schemas/clients";
 import { verifyAlreadyExistClient } from "../middlewares/clients/verifyAlreadyExistClient";
-import { verifyNotExistClient } from "./../middlewares/clients/verifyNotExistClient";
+import { verifyNotExistClientByEmail } from "../middlewares/clients/verifyNotExistClientByEmail";
 import { verifyClientIsLogged } from "./../middlewares/clients/verifyClientIsLogged";
-import {
-    loginClientSchema,
-    registerClientSchema,
-    updateClientSchema,
-} from "./../schemas/clients";
+import { verifyNotExistClientById } from "../middlewares/clients/verifyNotExistClientById";
 import { validateSchema } from "../middlewares/validators/validateSchema";
 import { ClientController } from "../controllers/client.controller";
 import { Router } from "express";
@@ -15,37 +12,36 @@ export const clientRoutes = Router();
 clientRoutes.post(
     "/login",
     validateSchema(loginClientSchema),
-    verifyNotExistClient,
+    verifyNotExistClientByEmail,
     ClientController.login
 );
 
 clientRoutes.post(
-    "/register",
+    "/",
     validateSchema(registerClientSchema),
     verifyAlreadyExistClient,
     ClientController.create
 );
 
-// clientRoutes.get("/", ClientController.getAll);
+clientRoutes.get("/", ClientController.getAll);
 
 clientRoutes.patch(
     "/:id",
-    validateSchema(updateClientSchema),
     verifyClientIsLogged,
-    verifyNotExistClient,
+    verifyNotExistClientById,
     ClientController.update
 );
 
 clientRoutes.get(
     "/:id",
     verifyClientIsLogged,
-    verifyNotExistClient,
+    verifyNotExistClientById,
     ClientController.getById
 );
 
 clientRoutes.delete(
     "/:id",
     verifyClientIsLogged,
-    verifyNotExistClient,
+    verifyNotExistClientById,
     ClientController.delete
 );

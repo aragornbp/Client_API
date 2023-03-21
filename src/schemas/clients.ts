@@ -17,4 +17,5 @@ export const updateClientSchema = yup.object().shape({
     email: yup.string().email().notRequired(),
     password: yup.string().notRequired(),
     phone: yup.number().notRequired(),
+    is_active: yup.boolean().notRequired(),
 });

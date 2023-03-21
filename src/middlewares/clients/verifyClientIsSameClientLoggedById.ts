@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { AppError } from "../../errors/app-error";
 import jwt from "jsonwebtoken";
 
-export const verifyClientIsLogged = async (
+export const verifyClientIsSameClientLoggedById = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -25,6 +25,9 @@ export const verifyClientIsLogged = async (
         const clientFound = await clientRepo.findOneBy({ id });
         if (!clientFound) {
             throw new AppError("User Not Found", 404);
+        }
+        if (req.params.id !== clientFound.id) {
+            throw new AppError("User can`t update other user");
         }
         req.clientFound = clientFound;
         return next();

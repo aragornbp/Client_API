@@ -8,6 +8,8 @@ import { Contact } from "../entities/Contact";
 import { UpdateResult } from "typeorm";
 import { Request } from "express";
 import "express-async-errors";
+import { updateContactSchema } from "../schemas/contacts";
+import { clientRepo } from "./../repositories/client-repo";
 
 export const ContactService = {
     async findContactById(id: string): Promise<Contact> {
@@ -21,10 +23,12 @@ export const ContactService = {
                 "client",
             ],
             where: {
-                id,
+                id: id,
             },
             relations: {
-                client: true,
+                client: {
+                    password: false,
+                },
             },
         });
         if (!foundContact) {
@@ -43,30 +47,32 @@ export const ContactService = {
         });
     },
     async create(req: Request) {
-        const contactData: IContactCreateRequest = req.body;
+        const body: IContactCreateRequest = req.body;
         const clientLogged = req.clientFound;
         const newContact = contactRepo.create({
-            ...contactData,
+            ...body,
             client: clientLogged,
         });
         await contactRepo.save(newContact);
-        return await this.findContactById(newContact.id);
+        return newContact;
     },
     async getById(req: Request): Promise<Contact | null> {
         const { id } = req.params;
-        return await contactRepo.findOne({
-            where: {
-                id,
-            },
-            relations: {
-                client: true,
-            },
-        });
+        return await this.findContactById(id);
     },
     async update(req: Request): Promise<Contact> {
         const { id } = req.params;
-        const contactData: IContactUpdateRequest = req.body;
-        await contactRepo.update(id, contactData);
+        const validatedData = await updateContactSchema.validate(req.body, {
+            stripUnknown: true,
+        });
+        const { email, is_active, name, phone } = validatedData;
+        if (!email && !is_active && !name && !phone) {
+            throw new AppError(
+                "Enter at least one field ['email', 'name', 'is_active', 'phone']",
+                400
+            );
+        }
+        await contactRepo.update(id, validatedData);
         return await this.findContactById(id);
     },
     async delete(req: Request): Promise<UpdateResult> {

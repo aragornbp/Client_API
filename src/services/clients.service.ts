@@ -11,6 +11,7 @@ import {
 } from "../interfaces/clients";
 import jwt from "jsonwebtoken";
 import "express-async-errors";
+import { updateClientSchema } from "./../schemas/clients";
 
 export const ClientService = {
     async login(req: Request) {
@@ -33,15 +34,15 @@ export const ClientService = {
         });
         return { token };
     },
-    async findUserById(id: string): Promise<Client> {
-        const foundUser = await clientRepo.findOne({
+    async findClientById(id: string): Promise<Client> {
+        const foundClient = await clientRepo.findOne({
             select: [
                 "id",
                 "name",
                 "email",
                 "phone",
-                "contacts",
                 "registered_date",
+                "is_active",
             ],
             where: {
                 id,
@@ -50,10 +51,10 @@ export const ClientService = {
                 contacts: true,
             },
         });
-        if (!foundUser) {
+        if (!foundClient) {
             throw new AppError("Client Not Found", 404);
         }
-        return foundUser;
+        return foundClient;
     },
     async getAll(req: Request) {
         return await clientRepo.find({
@@ -82,16 +83,20 @@ export const ClientService = {
             password: passCrypt,
         });
         await clientRepo.save(newPerson);
-        // const result = await ClientService.findUserById(newPerson.id);
-
-        // console.log({
-        //     result,
-        // });
-        return newPerson;
+        return await this.findClientById(newPerson.id);
     },
     async getById(req: Request): Promise<Client | null> {
         const { id } = req.params;
         return await clientRepo.findOne({
+            select: [
+                "id",
+                "name",
+                "email",
+                "is_active",
+                "phone",
+                "registered_date",
+                "contacts",
+            ],
             where: {
                 id,
             },
@@ -100,19 +105,30 @@ export const ClientService = {
             },
         });
     },
-    async update(req: Request): Promise<Client> {
+    async update(req: Request) {
         const { id } = req.params;
-        const body: IClientUpdateRequest = req.body;
-        const newPassword = body.password ? await hash(body.password, 8) : null;
+        const validatedData = await updateClientSchema.validate(req.body, {
+            stripUnknown: true,
+        });
+        const { email, is_active, name, phone, password } = validatedData;
+        if (!email && !is_active && !name && !phone && !password) {
+            throw new AppError(
+                "Enter at least one field ['email', 'password', 'name', 'is_active', 'phone']",
+                400
+            );
+        }
+        const newPassword = validatedData.password
+            ? await hash(validatedData.password, 8)
+            : null;
         if (newPassword) {
             await clientRepo.update(id, {
-                ...body,
-                password: newPassword ?? body.password,
+                ...validatedData,
+                password: newPassword ?? validatedData.password,
             });
         } else {
-            await clientRepo.update(id, body);
+            await clientRepo.update(id, validatedData);
         }
-        return await this.findUserById(id);
+        return await this.findClientById(id);
     },
     async delete(req: Request): Promise<UpdateResult> {
         const { id } = req.params;
