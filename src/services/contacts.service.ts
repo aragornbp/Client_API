@@ -26,9 +26,7 @@ export const ContactService = {
                 id: id,
             },
             relations: {
-                client: {
-                    password: false,
-                },
+                client: true,
             },
         });
         if (!foundContact) {
@@ -54,7 +52,14 @@ export const ContactService = {
             client: clientLogged,
         });
         await contactRepo.save(newContact);
-        return newContact;
+        const newContactWithoutPassword = {
+            ...newContact,
+            client: {
+                ...newContact.client,
+                password: undefined,
+            },
+        };
+        return newContactWithoutPassword;
     },
     async getById(req: Request): Promise<Contact | null> {
         const { id } = req.params;

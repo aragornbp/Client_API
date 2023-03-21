@@ -11,6 +11,7 @@ export const verifyNotExistClientByEmail = async (
         where: {
             email: req.body.email,
         },
+        select: ["id", "email", "password"],
     });
     if (!existClient) {
         throw new AppError("Client Not Found");
