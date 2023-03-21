@@ -1,29 +1,17 @@
+import { IContactCreateRequest } from "../interfaces/contacts";
 import { contactRepo } from "../repositories/contact-repo";
-import {
-    IContactCreateRequest,
-    IContactUpdateRequest,
-} from "../interfaces/contacts";
+import { updateContactSchema } from "../schemas/contacts";
 import { AppError } from "../errors/app-error";
 import { Contact } from "../entities/Contact";
 import { UpdateResult } from "typeorm";
 import { Request } from "express";
 import "express-async-errors";
-import { updateContactSchema } from "../schemas/contacts";
-import { clientRepo } from "./../repositories/client-repo";
 
 export const ContactService = {
     async findContactById(id: string): Promise<Contact> {
         const foundContact = await contactRepo.findOne({
-            select: [
-                "id",
-                "name",
-                "email",
-                "phone",
-                "registered_date",
-                "client",
-            ],
             where: {
-                id: id,
+                id,
             },
             relations: {
                 client: true,
@@ -52,14 +40,7 @@ export const ContactService = {
             client: clientLogged,
         });
         await contactRepo.save(newContact);
-        const newContactWithoutPassword = {
-            ...newContact,
-            client: {
-                ...newContact.client,
-                password: undefined,
-            },
-        };
-        return newContactWithoutPassword;
+        return newContact;
     },
     async getById(req: Request): Promise<Contact | null> {
         const { id } = req.params;
@@ -70,13 +51,6 @@ export const ContactService = {
         const validatedData = await updateContactSchema.validate(req.body, {
             stripUnknown: true,
         });
-        const { email, is_active, name, phone } = validatedData;
-        if (!email && !is_active && !name && !phone) {
-            throw new AppError(
-                "Enter at least one field ['email', 'name', 'is_active', 'phone']",
-                400
-            );
-        }
         await contactRepo.update(id, validatedData);
         return await this.findContactById(id);
     },

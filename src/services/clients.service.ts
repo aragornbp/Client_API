@@ -36,14 +36,6 @@ export const ClientService = {
     },
     async findClientById(id: string): Promise<Client> {
         const foundClient = await clientRepo.findOne({
-            select: [
-                "id",
-                "name",
-                "email",
-                "phone",
-                "registered_date",
-                "is_active",
-            ],
             where: {
                 id,
             },
@@ -58,15 +50,6 @@ export const ClientService = {
     },
     async getAll(req: Request) {
         return await clientRepo.find({
-            select: [
-                "id",
-                "name",
-                "email",
-                "is_active",
-                "phone",
-                "registered_date",
-                "contacts",
-            ],
             where: {
                 is_active: true,
             },
@@ -88,15 +71,6 @@ export const ClientService = {
     async getById(req: Request): Promise<Client | null> {
         const { id } = req.params;
         return await clientRepo.findOne({
-            select: [
-                "id",
-                "name",
-                "email",
-                "is_active",
-                "phone",
-                "registered_date",
-                "contacts",
-            ],
             where: {
                 id,
             },
@@ -110,13 +84,6 @@ export const ClientService = {
         const validatedData = await updateClientSchema.validate(req.body, {
             stripUnknown: true,
         });
-        const { email, is_active, name, phone, password } = validatedData;
-        if (!email && !is_active && !name && !phone && !password) {
-            throw new AppError(
-                "Enter at least one field ['email', 'password', 'name', 'is_active', 'phone']",
-                400
-            );
-        }
         const newPassword = validatedData.password
             ? await hash(validatedData.password, 8)
             : null;

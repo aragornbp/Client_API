@@ -7,7 +7,11 @@ export const verifyNotExistContactByEmail = async (
     res: Response,
     next: NextFunction
 ) => {
-    const existContact = await contactRepo.findOneBy({ email: req.body.email });
+    const existContact = await contactRepo.findOne({
+        where: {
+            email: req.body.email,
+        },
+    });
     if (!existContact) {
         throw new AppError("Contact Not Found");
     }

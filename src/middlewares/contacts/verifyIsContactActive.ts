@@ -9,10 +9,11 @@ export const verifyIsContactActive = async (
 ) => {
     const contactIsActive = await contactRepo.findOne({
         where: {
-            is_active: true,
+            id: req.params.id,
         },
     });
-    if (contactIsActive) {
+    const isActive = contactIsActive?.is_active;
+    if (!isActive) {
         throw new AppError("Contact Not Exist", 400);
     }
     return next();

@@ -6,6 +6,7 @@ import { verifyNotExistClientById } from "../middlewares/clients/verifyNotExistC
 import { validateSchema } from "../middlewares/validators/validateSchema";
 import { ClientController } from "../controllers/client.controller";
 import { Router } from "express";
+import { verifyAlreadyExistContact } from "./../middlewares/contacts/verifyAlreadyExistContact";
 
 export const clientRoutes = Router();
 
