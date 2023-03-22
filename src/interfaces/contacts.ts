@@ -1,3 +1,4 @@
+import { IClientCreateResponse } from "./clients";
 import { Client } from "./../entities/Client";
 
 export interface IContactCreateRequest {
@@ -11,4 +12,14 @@ export interface IContactUpdateRequest {
     email?: string;
     phone?: number;
     is_active?: boolean;
+}
+
+export interface IContactCreateResponse {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    client: IClientCreateResponse;
+    registered_date: Date;
+    is_active: boolean;
 }

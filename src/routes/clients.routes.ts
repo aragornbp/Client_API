@@ -1,7 +1,7 @@
 import { loginClientSchema, registerClientSchema } from "./../schemas/clients";
 import { verifyAlreadyExistClient } from "../middlewares/clients/verifyAlreadyExistClient";
 import { verifyNotExistClientByEmail } from "../middlewares/clients/verifyNotExistClientByEmail";
-import { verifyClientIsLogged } from "./../middlewares/clients/verifyClientIsLogged";
+import { verifyClientIsSameClientLoggedById } from "./../middlewares/clients/verifyClientIsSameClientLoggedById";
 import { verifyNotExistClientById } from "../middlewares/clients/verifyNotExistClientById";
 import { validateSchema } from "../middlewares/validators/validateSchema";
 import { ClientController } from "../controllers/client.controller";
@@ -28,21 +28,21 @@ clientRoutes.get("/", ClientController.getAll);
 
 clientRoutes.patch(
     "/:id",
-    verifyClientIsLogged,
+    verifyClientIsSameClientLoggedById,
     verifyNotExistClientById,
     ClientController.update
 );
 
 clientRoutes.get(
     "/:id",
-    verifyClientIsLogged,
+    verifyClientIsSameClientLoggedById,
     verifyNotExistClientById,
     ClientController.getById
 );
 
 clientRoutes.delete(
     "/:id",
-    verifyClientIsLogged,
+    verifyClientIsSameClientLoggedById,
     verifyNotExistClientById,
     ClientController.delete
 );

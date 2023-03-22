@@ -27,7 +27,7 @@ export const verifyClientIsSameClientLoggedById = async (
             throw new AppError("User Not Found", 404);
         }
         if (req.params.id !== clientFound.id) {
-            throw new AppError("User can`t update other user");
+            throw new AppError("Invalid Credentials Token");
         }
         req.clientFound = clientFound;
         return next();
