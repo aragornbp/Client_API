@@ -8,6 +8,7 @@ import request from "supertest";
 describe("Clients Tests", () => {
     let connection: DataSource;
     let clientCreated = {} as IClientCreateResponse;
+    let token: string;
 
     beforeAll(async () => {
         await AppDataSource.initialize()
@@ -54,7 +55,7 @@ describe("Clients Tests", () => {
             .post("/clients/login")
             .send(M.MockedClientValid);
 
-        const token = loginBody.body.token;
+        token = loginBody.body.token;
 
         const clientLoggedToReturn = await request(app)
             .get(`/clients/${clientCreated.id}`)
@@ -74,12 +75,6 @@ describe("Clients Tests", () => {
             .post("/clients")
             .send(M.MockedOtherClientValid);
 
-        const loginBody = await request(app)
-            .post("/clients/login")
-            .send(M.MockedClientValid);
-
-        const token = loginBody.body.token;
-
         const response = await request(app)
             .get(`/clients/${otherUser.body.id}`)
             .set("Authorization", `Bearer ${token}`);
@@ -89,12 +84,6 @@ describe("Clients Tests", () => {
     });
 
     test("PATCH /clients/:id -  should be able to update owner user", async () => {
-        const loginBody = await request(app)
-            .post("/clients/login")
-            .send(M.MockedClientValid);
-
-        const token = loginBody.body.token;
-
         const response = await request(app)
             .patch(`/clients/${clientCreated.id}`)
             .set("Authorization", `Bearer ${token}`)
@@ -107,12 +96,6 @@ describe("Clients Tests", () => {
     });
 
     test("DELETE /clients/:id -  should be able to delete owner user, change your is_activate to false", async () => {
-        const loginBody = await request(app)
-            .post("/clients/login")
-            .send(M.MockedClientValid);
-
-        const token = loginBody.body.token;
-
         const response = await request(app)
             .delete(`/clients/${clientCreated.id}`)
             .set("Authorization", `Bearer ${token}`);

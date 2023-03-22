@@ -11,7 +11,7 @@ describe("contacts Tests", () => {
     let connection: DataSource;
     let contactCreated = {} as IContactCreateResponse;
     let clientCreated = {} as IClientCreateResponse;
-    let token: string = "";
+    let token: string;
 
     beforeAll(async () => {
         await AppDataSource.initialize()
@@ -67,74 +67,36 @@ describe("contacts Tests", () => {
         });
     });
 
-    // test("GET /contacts/:id -  should be able to get owner user", async () => {
-    //     const loginBody = await request(app)
-    //         .post("/contacts/login")
-    //         .send(M.MockedContactValid);
+    test("GET /contacts/:id -  should be able to get a contact", async () => {
+        const clientLoggedToReturn = await request(app)
+            .get(`/contacts/${contactCreated.id}`)
+            .set("Authorization", `Bearer ${token}`);
 
-    //     const token = loginBody.body.token;
+        expect(clientLoggedToReturn.body).toHaveProperty("id");
+        expect(clientLoggedToReturn.body).toHaveProperty("name");
+        expect(clientLoggedToReturn.body).toHaveProperty("email");
+        expect(clientLoggedToReturn.body).toHaveProperty("phone");
+        expect(clientLoggedToReturn.body).toHaveProperty("registered_date");
+        expect(clientLoggedToReturn.body).toHaveProperty("is_active");
+    });
 
-    //     const clientLoggedToReturn = await request(app)
-    //         .get(`/contacts/${contactCreated.id}`)
-    //         .set("Authorization", `Bearer ${token}`);
+    test("PATCH /contacts/:id -  should be able to update contact", async () => {
+        const response = await request(app)
+            .patch(`/contacts/${contactCreated.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send({
+                name: "TESTE",
+            });
 
-    //     expect(clientLoggedToReturn.body).toHaveProperty("id");
-    //     expect(clientLoggedToReturn.body).toHaveProperty("name");
-    //     expect(clientLoggedToReturn.body).toHaveProperty("email");
-    //     expect(clientLoggedToReturn.body).toHaveProperty("phone");
-    //     expect(clientLoggedToReturn.body).toHaveProperty("registered_date");
-    //     expect(clientLoggedToReturn.body).toHaveProperty("is_active");
-    //     expect(clientLoggedToReturn.body).toHaveProperty("contacts");
-    // });
+        expect(response.body).toHaveProperty("name");
+        expect(response.body.name).toBe("TESTE");
+    });
 
-    // test("GET /contacts/:id -  should not be able to get other user", async () => {
-    //     const otherUser = await request(app)
-    //         .post("/contacts")
-    //         .send(M.MockedOtherContactInvalid);
+    test("DELETE /contacts/:id -  should be able to delete contact, change your is_activate to false", async () => {
+        const response = await request(app)
+            .delete(`/contacts/${contactCreated.id}`)
+            .set("Authorization", `Bearer ${token}`);
 
-    //     const loginBody = await request(app)
-    //         .post("/contacts/login")
-    //         .send(M.MockedContactValid);
-
-    //     const token = loginBody.body.token;
-
-    //     const response = await request(app)
-    //         .get(`/contacts/${otherUser.body.id}`)
-    //         .set("Authorization", `Bearer ${token}`);
-
-    //     expect(response.body).toHaveProperty("message");
-    //     expect(response.status).toBe(400);
-    // });
-
-    // test("PATCH /contacts/:id -  should be able to update owner user", async () => {
-    //     const loginBody = await request(app)
-    //         .post("/contacts/login")
-    //         .send(M.MockedContactValid);
-
-    //     const token = loginBody.body.token;
-
-    //     const response = await request(app)
-    //         .patch(`/contacts/${contactCreated.id}`)
-    //         .set("Authorization", `Bearer ${token}`)
-    //         .send({
-    //             name: "TESTE",
-    //         });
-
-    //     expect(response.body).toHaveProperty("name");
-    //     expect(response.body.name).toBe("TESTE");
-    // });
-
-    // test("DELETE /contacts/:id -  should be able to delete owner user, change your is_activate to false", async () => {
-    //     const loginBody = await request(app)
-    //         .post("/contacts/login")
-    //         .send(M.MockedContactValid);
-
-    //     const token = loginBody.body.token;
-
-    //     const response = await request(app)
-    //         .delete(`/contacts/${contactCreated.id}`)
-    //         .set("Authorization", `Bearer ${token}`);
-
-    //     expect(response.status).toBe(204);
-    // });
+        expect(response.status).toBe(204);
+    });
 });
