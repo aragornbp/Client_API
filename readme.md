@@ -6,6 +6,8 @@
 Este é o backend da aplicação Client_API para gerenciamento de clientes e contatos.
 </p>
 
+<li>URL base da api: https://client-api.up.railway.app</li>
+
 <h2 align ='center'>Clientes (Endpoints)</h2>
 
 ## **Rotas Sem Autenticação**
