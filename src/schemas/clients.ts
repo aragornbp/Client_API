@@ -4,7 +4,7 @@ export const registerClientSchema = yup.object().shape({
     name: yup.string().required(),
     email: yup.string().email().required(),
     password: yup.string().required(),
-    phone: yup.number().min(11).max(11).required(),
+    phone: yup.number().min(11).required(),
 });
 
 export const loginClientSchema = yup.object().shape({
