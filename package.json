@@ -8,13 +8,12 @@
         "dev": "ts-node-dev --ignore-watch node_modules src/server.ts",
         "drop": "psql -U neto -d tests_products -c \"DROP DATABASE s1_m6\" \"exit\"",
         "new": "psql -U neto -d tests_products -c \"CREATE DATABASE s1_m6\" \"exit\"",
-        "deploy": "npm install && npm run build && npx typeorm-ts-node-commonjs migration:run -d src/data-source.js && node dist/src/server.js",
-        "start": "node dist/src/server.js",
+        "typeorm": "typeorm-ts-node-commonjs",
         "build": "tsc",
         "generate": "typeorm-ts-node-commonjs migration:generate -d src/data-source.ts src/migrations/createEntities",
         "runner": "typeorm-ts-node-commonjs migration:run -d src/data-source.ts",
-        "typeorm": "typeorm-ts-node-commonjs",
-        "test": "cross-env NODE_ENV=test SECRET_KEY=secret_key jest --verbose --runInBand"
+        "test": "cross-env NODE_ENV=test SECRET_KEY=secret_key jest --verbose --runInBand",
+        "start": "node dist/src/server.js"
     },
     "devDependencies": {
         "@types/bcryptjs": "^2.4.2",
