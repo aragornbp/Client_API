@@ -6,13 +6,11 @@
 Este é o backend da aplicação Client_API para gerenciamento de clientes e contatos.
 </p>
 
-<br/>
-
-## **Rotas Sem Autenticação**
-
 <h2 align ='center'>Clientes (Endpoints)</h2>
 
 ## <br/>
+
+## **Rotas Sem Autenticação**
 
 <li style='font-size: 20px'>Criação de um Cliente:</li>
 
