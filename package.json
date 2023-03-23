@@ -8,6 +8,7 @@
         "dev": "ts-node-dev --ignore-watch node_modules src/server.ts",
         "drop": "psql -U neto -d tests_products -c \"DROP DATABASE s1_m6\" \"exit\"",
         "new": "psql -U neto -d tests_products -c \"CREATE DATABASE s1_m6\" \"exit\"",
+        "start": "node dist/src/server.js",
         "build": "tsc",
         "generate": "typeorm-ts-node-commonjs migration:generate -d src/data-source.ts src/migrations/createEntities",
         "runner": "typeorm-ts-node-commonjs migration:run -d src/data-source.ts",
