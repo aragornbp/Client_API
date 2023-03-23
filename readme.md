@@ -6,8 +6,6 @@
 Este é o backend da aplicação Client_API para gerenciamento de clientes e contatos.
 </p>
 
-<blockquote align="center">“Sempre passar o que você aprendeu. - Mestre Yoda”</blockquote>
-
 <br/>
 
 ## **Rotas Sem Autenticação**
