@@ -14,13 +14,16 @@
 
 <br/>
 
+Observação: O campo "phone" precisa ter 11 digitos
+
 `POST /clients - FORMATO DA REQUISIÇÃO - STATUS 201`
 
 ```json
 {
     "name": "matheus",
+    "email": "matheus@gmail.com",
     "password": "matheus",
-    "email": "matheus1111@gmail.com"
+    "phone": 99934561234
 }
 ```
 
@@ -30,9 +33,13 @@ Caso dê tudo certo, a resposta será assim:
 
 ```json
 {
-    "id": "2a145ef5-cfee-4ecf-8062-c3cf37f81259",
+    "id": "87756338-817f-496d-b7e1-c568cfc5e82b",
     "name": "matheus",
-    "email": "matheus@gmail.com"
+    "email": "matheus@gmail.com",
+    "phone": "99934561234",
+    "registered_date": "2023-03-22T18:03:24.787Z",
+    "is_active": true,
+    "contacts": []
 }
 ```
 
@@ -42,22 +49,30 @@ Caso dê tudo certo, a resposta será assim:
 
 <br/>
 
-`POST /clients/login - FORMATO DA REQUISIÇÃO - STATUS 200`
+`POST /clients/login - FORMATO DA REQUISIÇÃO - STATUS 201`
 
 ```json
 {
-    "email": "neto@gmail.com",
-    "password": 1234
+    "email": "matheus@gmail.com",
+    "password": "matheus"
 }
 ```
 
 Caso dê tudo certo, a resposta será assim:
 
-`POST /clients/login - FORMATO DA RESPOSTA - STATUS 200`
+`POST /clients/login - FORMATO DA RESPOSTA - STATUS 201`
 
 ```json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Nzk1MDgyMjIsImV4cCI6MTY3OTU5NDYyMiwic3ViIjoiODc3NTYzMzgtODE3Zi00OTZkLWI3ZTEtYzU2OGNmYzVlODJiIn0.HUSu-5Fdec2VvfnkFK5gINXap7DwnvJk1yXrQ4XyH28"
+}
+```
+
+Caso dê um erro irá retornar o seguinte erro:
+
+```json
+{
+    "message": "Client Not Found"
 }
 ```
 
@@ -73,11 +88,21 @@ Após o usuário estar logado, ele deve conseguir informar as tecnologias que el
 
 <br/>
 
-`POST /contacts/ - 401 Sem Autorização`
+`(Exemplo) POST /contacts/ - 401 Sem Autorização`
 
 ```json
 {
     "message": "Invalid token"
+}
+```
+
+<br/>
+
+> Caso seja informado um id inválido ou diferente do id do usuário logado irá retornar:
+
+```json
+{
+    "message": "Invalid Credentials Token"
 }
 ```
 
@@ -92,9 +117,9 @@ Após o usuário estar logado, ele deve conseguir informar as tecnologias que el
 ```json
 {
     "id": "87756338-817f-496d-b7e1-c568cfc5e82b",
-    "name": "neto",
-    "email": "neto@gmail.com",
-    "phone": "1234",
+    "name": "matheus",
+    "email": "matheus@gmail.com",
+    "phone": "99934561234",
     "registered_date": "2023-03-22T18:03:24.787Z",
     "is_active": true,
     "contacts": []
@@ -109,21 +134,23 @@ Após o usuário estar logado, ele deve conseguir informar as tecnologias que el
 
 ```json
 {
-    "password": "lucas",
-    "email": "lucas@gmail.com",
-    "name": "lucas"
+    "email": "matheusvincente@gmail.com"
 }
 ```
 
 Caso dê tudo certo, a resposta será assim:
 
-`PATCH /clients/:client_id - FORMATO DA RESPOSTA - STATUS 201`
+`PATCH /clients/:client_id - FORMATO DA RESPOSTA - STATUS 200`
 
 ```json
 {
-    "id": "2a145ef5-cfee-4ecf-8062-c3cf37f81259",
-    "name": "lucas",
-    "email": "lucas@gmail.com"
+    "id": "87756338-817f-496d-b7e1-c568cfc5e82b",
+    "name": "matheus",
+    "email": "matheusvincente@gmail.com",
+    "phone": "99934561234",
+    "registered_date": "2023-03-22T18:03:24.787Z",
+    "is_active": true,
+    "contacts": []
 }
 ```
 
@@ -137,9 +164,17 @@ Caso dê tudo certo, a resposta será assim:
 {}
 ```
 
----
+<br/>
 
-## <br/>
+<li style='font-size: 20px'>Outra Possível Mensagem de Erro:</li>
+
+<br/>
+
+```json
+{
+    "message": "Client Not Found"
+}
+```
 
 <h2 align ='center'>Contatos (Endpoints)</h2>
 
@@ -156,7 +191,7 @@ Caso dê tudo certo, a resposta será assim:
     "name": "tio",
     "email": "tio@gmail.com",
     "password": "1234",
-    "phone": 78897778999
+    "phone": 78123456789
 }
 ```
 
@@ -187,7 +222,7 @@ Caso dê tudo certo, a resposta será assim:
 
 <br/>
 
-`GET /contacts/:contact_id - FORMATO DA RESPOSTA - STATUS 201`
+`GET /contacts/:contact_id - FORMATO DA RESPOSTA - STATUS 200`
 
 ```json
 {
@@ -223,7 +258,7 @@ Caso dê tudo certo, a resposta será assim:
 
 <li style='font-size: 20px'>Caso dê tudo certo, a resposta será assim:</li>
 
-`PATCH /contacts/:contact_id - FORMATO DA RESPOSTA - STATUS 201`
+`PATCH /contacts/:contact_id - FORMATO DA RESPOSTA - STATUS 200`
 
 ```json
 {
@@ -256,7 +291,7 @@ Caso dê tudo certo, a resposta será assim:
 
 <br/>
 
-<li style='font-size: 20px'>Possível Erro</li>
+<li style='font-size: 20px'>Outra Possível Mensagem de Erro:</li>
 
 <br/>
 
