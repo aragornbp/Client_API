@@ -15,11 +15,6 @@ const setDataSourceConfig = (): DataSourceOptions => {
         return {
             type: "postgres",
             url: process.env.DATABASE_URL,
-            host: process.env.PGHOST,
-            port: parseInt(process.env.PGPORT!),
-            username: process.env.PGUSER,
-            password: process.env.PGPASSWORD,
-            database: process.env.PGDATABASE,
             entities: [entitiesPath],
             migrations: [migrationsPath],
         };
