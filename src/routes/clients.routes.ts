@@ -24,8 +24,6 @@ clientRoutes.post(
     ClientController.create
 );
 
-clientRoutes.get("/", ClientController.getAll);
-
 clientRoutes.patch(
     "/:id",
     verifyClientIsSameClientLoggedById,

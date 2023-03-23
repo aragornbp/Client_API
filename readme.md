@@ -2,13 +2,19 @@
 	Client_API | API REST (Back-end)
 </h2>
 
-<br/>
+<p align = "center">
+Este é o backend da aplicação Client_API para gerenciamento de clientes e contatos.
+</p>
 
-<!-- A url base da API é https://api-person.onrender.com -->
+<blockquote align="center">“Sempre passar o que você aprendeu. - Mestre Yoda”</blockquote>
+
+<br/>
 
 ## **Rotas Sem Autenticação**
 
-<br/>
+<h2 align ='center'>Clientes (Endpoints)</h2>
+
+## <br/>
 
 <li style='font-size: 20px'>Criação de um Cliente:</li>
 
