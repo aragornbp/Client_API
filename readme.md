@@ -180,8 +180,6 @@ Caso dê tudo certo, a resposta será assim:
 
 <h2 align ='center'>Contatos (Endpoints)</h2>
 
-## <br/>
-
 <li style='font-size: 20px'>Criando um contato a partir do cliente logado:</li>
 
 <br/>
@@ -211,7 +209,7 @@ Caso dê tudo certo, a resposta será assim:
         "id": "87756338-817f-496d-b7e1-c568cfc5e82b",
         "name": "neto",
         "email": "neto@gmail.com",
-        "phone": "1234",
+        "phone": "99123456789",
         "registered_date": "2023-03-22T18:03:24.787Z",
         "is_active": true
     },
@@ -238,7 +236,7 @@ Caso dê tudo certo, a resposta será assim:
         "id": "87756338-817f-496d-b7e1-c568cfc5e82b",
         "name": "neto",
         "email": "neto@gmail.com",
-        "phone": "1234",
+        "phone": "99123456789",
         "registered_date": "2023-03-22T18:03:24.787Z",
         "is_active": true
     }
@@ -274,7 +272,7 @@ Caso dê tudo certo, a resposta será assim:
         "id": "87756338-817f-496d-b7e1-c568cfc5e82b",
         "name": "neto",
         "email": "neto@gmail.com",
-        "phone": "1234",
+        "phone": "99123456789",
         "registered_date": "2023-03-22T18:03:24.787Z",
         "is_active": true
     }
