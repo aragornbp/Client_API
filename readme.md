@@ -1,3 +1,5 @@
+<h1>API está temporariamente indisponível</h1>
+
 <h2 align="center" style='font-family: sans-serif'>
 	Client_API | API REST (Back-end)
 </h2>
@@ -7,6 +9,7 @@ Este é o backend da aplicação Client_API para gerenciamento de clientes e con
 </p>
 
 <li>URL base da api: https://client-api.up.railway.app</li>
+
 
 <h2 align ='center'>Clientes (Endpoints)</h2>
 
