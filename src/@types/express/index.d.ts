@@ -1,9 +1,9 @@
 import { Client } from "./../../entities/Client";
 import { Contact } from "./../../entities/Contact";
 
-declare module "supertest";
-declare module "express";
-declare module "jsonwebtoken";
+// declare module "supertest";
+// declare module "express";
+// declare module "jsonwebtoken";
 
 declare global {
     namespace Express {
