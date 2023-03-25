@@ -1,5 +1,5 @@
-import { Client } from "./../../entities/Client";
 import { Contact } from "./../../entities/Contact";
+import { Client } from "./../../entities/Client";
 
 // declare module "supertest";
 // declare module "express";
